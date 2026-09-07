@@ -8,7 +8,7 @@ from netbox.views import generic
 
 from .choices import AmpParameterTypeChoices
 from .filtersets import AmpInputSettingsFilterSet, AmpOutputSettingsFilterSet
-from .forms import AmpInputSettingsForm, AmpOutputSettingsForm, AmpParameterForm
+from .forms import AmpInputSettingsForm, AmpOutputSettingsForm, AmpParameterForm, amp_input_interfaces
 from .models import AmpInputSettings, AmpOutputSettings
 from .tables import AmpInputSettingsTable, AmpOutputSettingsTable
 
@@ -99,9 +99,19 @@ class InterfaceAmpParametersEditView(PermissionRequiredMixin, View):
             }
         return {'parameter_type': AmpParameterTypeChoices.NONE}
 
+    def limit_output_sources(self, form, interface):
+        """
+        Restrict the output source choices to interfaces on the same device (other than this
+        one) that are configured with input amp parameters.
+        """
+        queryset = amp_input_interfaces().filter(device=interface.device).exclude(pk=interface.pk)
+        form.fields['output_source_1'].queryset = queryset
+        form.fields['output_source_2'].queryset = queryset
+
     def get(self, request, interface_id):
         interface = get_object_or_404(Interface, pk=interface_id)
         form = AmpParameterForm(initial=self.get_initial(interface))
+        self.limit_output_sources(form, interface)
         return render(request, 'netbox_plugin_sonance_amp/amp_parameters_edit.html', {
             'object': interface,
             'interface': interface,
@@ -112,6 +122,7 @@ class InterfaceAmpParametersEditView(PermissionRequiredMixin, View):
     def post(self, request, interface_id):
         interface = get_object_or_404(Interface, pk=interface_id)
         form = AmpParameterForm(data=request.POST)
+        self.limit_output_sources(form, interface)
 
         if form.is_valid():
             parameter_type = form.cleaned_data['parameter_type']

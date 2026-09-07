@@ -2,7 +2,7 @@ from dcim.api.serializers import InterfaceSerializer
 from netbox.api.fields import ChoiceField
 from netbox.api.serializers import NetBoxModelSerializer
 
-from ..choices import ModeSource2Choices, OutputGroupChoices, OutputSourceChoices, StereoModeChoices
+from ..choices import ModeSource2Choices, OutputGroupChoices, StereoModeChoices
 from ..models import AmpInputSettings, AmpOutputSettings
 
 
@@ -22,8 +22,8 @@ class AmpOutputSettingsSerializer(NetBoxModelSerializer):
     interface = InterfaceSerializer(nested=True)
     stereo_mono = ChoiceField(choices=StereoModeChoices)
     output_group = ChoiceField(choices=OutputGroupChoices, required=False)
-    output_source_1 = ChoiceField(choices=OutputSourceChoices, required=False)
-    output_source_2 = ChoiceField(choices=OutputSourceChoices, required=False)
+    output_source_1 = InterfaceSerializer(nested=True, required=False, allow_null=True)
+    output_source_2 = InterfaceSerializer(nested=True, required=False, allow_null=True)
     mode_source_2 = ChoiceField(choices=ModeSource2Choices, required=False)
 
     class Meta:

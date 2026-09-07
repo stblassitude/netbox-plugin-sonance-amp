@@ -4,7 +4,7 @@ from django.urls import reverse
 
 from netbox.models import NetBoxModel
 
-from .choices import ModeSource2Choices, OutputGroupChoices, OutputSourceChoices, StereoModeChoices
+from .choices import ModeSource2Choices, OutputGroupChoices, StereoModeChoices
 
 
 class AmpInputSettings(NetBoxModel):
@@ -18,10 +18,10 @@ class AmpInputSettings(NetBoxModel):
     )
     level_trim_db = models.DecimalField(
         verbose_name='level trim (dB)',
-        max_digits=4,
+        max_digits=3,
         decimal_places=1,
         default=0,
-        validators=(MinValueValidator(-18), MaxValueValidator(18)),
+        validators=(MinValueValidator(-6), MaxValueValidator(6)),
     )
 
     class Meta:
@@ -70,16 +70,24 @@ class AmpOutputSettings(NetBoxModel):
     )
 
     # Output Source
-    output_source_1 = models.CharField(
+    # Selectable sources are interfaces configured with input amp parameters; the choice is
+    # presented (and should be read) as that interface's label, falling back to its name.
+    output_source_1 = models.ForeignKey(
         verbose_name='output source 1',
-        max_length=2,
-        choices=OutputSourceChoices,
+        to='dcim.Interface',
+        on_delete=models.SET_NULL,
+        related_name='+',
+        limit_choices_to={'sonance_amp_input_settings__isnull': False},
+        null=True,
         blank=True,
     )
-    output_source_2 = models.CharField(
+    output_source_2 = models.ForeignKey(
         verbose_name='output source 2',
-        max_length=2,
-        choices=OutputSourceChoices,
+        to='dcim.Interface',
+        on_delete=models.SET_NULL,
+        related_name='+',
+        limit_choices_to={'sonance_amp_input_settings__isnull': False},
+        null=True,
         blank=True,
     )
     mode_source_2 = models.CharField(

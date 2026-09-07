@@ -3,6 +3,7 @@ from django.test import TestCase
 from dcim.models import Device, DeviceRole, DeviceType, Interface, Manufacturer, Site
 
 from netbox_plugin_sonance_amp.choices import OutputGroupChoices, StereoModeChoices
+from netbox_plugin_sonance_amp.forms import AmpInputInterfaceChoiceField, amp_input_interfaces
 from netbox_plugin_sonance_amp.models import AmpInputSettings, AmpOutputSettings
 
 
@@ -43,3 +44,33 @@ class AmpSettingsTestCase(TestCase):
         AmpInputSettings.objects.create(interface=self.input_interface)
 
         self.assertIsNone(getattr(self.input_interface, 'sonance_amp_output_settings', None))
+
+    def test_output_source_selectable_only_from_configured_inputs(self):
+        # Not yet configured with AmpInputSettings: not a valid source.
+        self.assertNotIn(self.input_interface, amp_input_interfaces())
+
+        AmpInputSettings.objects.create(interface=self.input_interface)
+
+        self.assertIn(self.input_interface, amp_input_interfaces())
+        self.assertNotIn(self.output_interface, amp_input_interfaces())
+
+    def test_output_source_label_prefers_label_over_name(self):
+        AmpInputSettings.objects.create(interface=self.input_interface)
+        field = AmpInputInterfaceChoiceField(queryset=amp_input_interfaces())
+
+        self.assertEqual(field.label_from_instance(self.input_interface), 'Input 1')
+
+        self.input_interface.label = 'In 1L'
+        self.input_interface.save()
+
+        self.assertEqual(field.label_from_instance(self.input_interface), 'In 1L')
+
+    def test_output_settings_output_source(self):
+        AmpInputSettings.objects.create(interface=self.input_interface)
+        settings = AmpOutputSettings.objects.create(
+            interface=self.output_interface,
+            output_source_1=self.input_interface,
+        )
+
+        self.assertEqual(settings.output_source_1, self.input_interface)
+        self.assertIsNone(settings.output_source_2)

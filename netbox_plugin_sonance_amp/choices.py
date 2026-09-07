@@ -30,14 +30,6 @@ class OutputGroupChoices(ChoiceSet):
     CHOICES = [(letter, letter) for letter in 'ABCDEFGH']
 
 
-class OutputSourceChoices(ChoiceSet):
-    CHOICES = [
-        (f'{number}{channel}', f'{number}{channel}')
-        for number in range(1, 5)
-        for channel in ('L', 'R')
-    ]
-
-
 class ModeSource2Choices(ChoiceSet):
     MUTE = 'mute'
     MIX = 'mix'

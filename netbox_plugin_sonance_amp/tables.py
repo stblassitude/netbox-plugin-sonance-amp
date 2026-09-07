@@ -22,12 +22,18 @@ class AmpOutputSettingsTable(NetBoxTable):
     device = tables.Column(accessor='interface__device', linkify=True)
     stereo_mono = ChoiceFieldColumn()
     output_group = ChoiceFieldColumn()
-    output_source_1 = ChoiceFieldColumn()
-    output_source_2 = ChoiceFieldColumn()
+    output_source_1 = tables.Column(linkify=True)
+    output_source_2 = tables.Column(linkify=True)
     mode_source_2 = ChoiceFieldColumn()
     bridge_mode = BooleanColumn()
     mute = BooleanColumn()
     tags = TagColumn(url_name='plugins:netbox_plugin_sonance_amp:ampoutputsettings_list')
+
+    def render_output_source_1(self, value):
+        return value.label or value.name
+
+    def render_output_source_2(self, value):
+        return value.label or value.name
 
     class Meta(NetBoxTable.Meta):
         model = AmpOutputSettings

@@ -55,11 +55,15 @@
       </tr>
       <tr>
         <th scope="row" class="ps-3">{% trans "Output Source 1" %}</th>
-        <td>{{ output_settings.get_output_source_1_display|placeholder }}</td>
+        <td>
+          {% if output_settings.output_source_1 %}<a href="{{ output_settings.output_source_1.get_absolute_url }}">{{ output_settings.output_source_1.label|default:output_settings.output_source_1.name }}</a>{% else %}{{ ""|placeholder }}{% endif %}
+        </td>
       </tr>
       <tr>
         <th scope="row" class="ps-3">{% trans "Output Source 2" %}</th>
-        <td>{{ output_settings.get_output_source_2_display|placeholder }}</td>
+        <td>
+          {% if output_settings.output_source_2 %}<a href="{{ output_settings.output_source_2.get_absolute_url }}">{{ output_settings.output_source_2.label|default:output_settings.output_source_2.name }}</a>{% else %}{{ ""|placeholder }}{% endif %}
+        </td>
       </tr>
       <tr>
         <th scope="row" class="ps-3">{% trans "Mode Source 2" %}</th>

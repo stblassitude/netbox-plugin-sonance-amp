@@ -1,6 +1,8 @@
 from dcim.choices import DeviceStatusChoices, InterfaceTypeChoices
 from dcim.models import Device, DeviceRole, DeviceType, Interface, Manufacturer, Site
 
+from netbox_plugin_sonance_amp.models import AmpInputSettings
+
 site, _ = Site.objects.get_or_create(slug='demo-site', defaults={'name': 'Demo Site'})
 manufacturer, _ = Manufacturer.objects.get_or_create(slug='sonance', defaults={'name': 'Sonance'})
 device_type, _ = DeviceType.objects.get_or_create(
@@ -18,13 +20,26 @@ device, created = Device.objects.get_or_create(
     },
 )
 
-input_interface, _ = Interface.objects.get_or_create(
-    device=device, name='Input 1', defaults={'type': InterfaceTypeChoices.TYPE_OTHER},
-)
-output_interface, _ = Interface.objects.get_or_create(
-    device=device, name='Output 1', defaults={'type': InterfaceTypeChoices.TYPE_OTHER},
-)
+# A SonAmp has 4 stereo input pairs and 4 stereo output pairs.
+channels = [f'{number}{side}' for number in range(1, 5) for side in ('L', 'R')]
+
+input_interfaces = []
+for channel in channels:
+    label = f'In {channel}'
+    interface, _ = Interface.objects.get_or_create(
+        device=device, name=label, defaults={'type': InterfaceTypeChoices.TYPE_OTHER, 'label': label},
+    )
+    AmpInputSettings.objects.get_or_create(interface=interface)
+    input_interfaces.append(interface)
+
+output_interfaces = []
+for channel in channels:
+    label = f'Out {channel}'
+    interface, _ = Interface.objects.get_or_create(
+        device=device, name=label, defaults={'type': InterfaceTypeChoices.TYPE_OTHER, 'label': label},
+    )
+    output_interfaces.append(interface)
 
 print(f'Demo device: {device} (id={device.pk})')
-print(f'Input interface: {input_interface} (id={input_interface.pk}) -> {input_interface.get_absolute_url()}')
-print(f'Output interface: {output_interface} (id={output_interface.pk}) -> {output_interface.get_absolute_url()}')
+print(f'Input interfaces: {", ".join(i.name for i in input_interfaces)}')
+print(f'Output interfaces: {", ".join(i.name for i in output_interfaces)}')

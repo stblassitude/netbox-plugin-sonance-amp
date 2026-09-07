@@ -9,7 +9,7 @@ Configuration parameters for inputs and outputs are stored in two models: AmpInp
 For AmpInputSettings, the following fields are managed:
 * Level Trim dB: value of -6.0 to 6.0 in 0.5 steps
 
-The Interface Label field is applied to the Input Name parameter.
+The Interface Label field is applied to the Input Name parameter. This name is also what is offered when choosing an Output Source below; if an input interface has no label set, its name is used instead.
 
 For AmpOutputSettings, the following fields are managed:
 * Output Setup 
@@ -18,7 +18,7 @@ For AmpOutputSettings, the following fields are managed:
     * Output Group: choice of "A" to "H"
     * Bridge Mode: "on" or "off"
 * Output Source
-    * Output Source 1: choice of "1L", "1R", ... to "4R"
+    * Output Source 1: choice of any other interface on the same device configured with input amp parameters, offered by that interface's label (or name, if it has no label)
     * Output Source 2: as above
     * Mode Source 2: choice of "mute", "mix", or "off"
 * Output Volume
