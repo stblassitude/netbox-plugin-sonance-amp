@@ -1,0 +1,104 @@
+{% load helpers %}
+{% load i18n %}
+
+<div class="card">
+  <h2 class="card-header">
+    {% trans "Sonance Amp Parameters" %}
+    <div class="card-actions">
+      <a href="{% url 'plugins:netbox_sonance_amp:interface_amp_parameters' interface_id=object.pk %}" class="btn btn-primary btn-sm">
+        <i class="mdi mdi-pencil"></i> {% trans "Edit" %}
+      </a>
+    </div>
+  </h2>
+  <table class="table table-hover attr-table">
+    {% if input_settings %}
+      <tr>
+        <th scope="row">{% trans "Type" %}</th>
+        <td>{% badge "Input amp parameters" bg_color="blue" %}</td>
+      </tr>
+      <tr>
+        <th scope="row">{% trans "Level Trim" %}</th>
+        <td>{{ input_settings.level_trim_db }} dB</td>
+      </tr>
+      <tr>
+        <th scope="row">{% trans "Details" %}</th>
+        <td>{{ input_settings|linkify }}</td>
+      </tr>
+    {% elif output_settings %}
+      <tr>
+        <th scope="row">{% trans "Type" %}</th>
+        <td>{% badge "Output amp parameters" bg_color="green" %}</td>
+      </tr>
+
+      <tr>
+        <th scope="row" colspan="2" class="fw-bold">{% trans "Output Setup" %}</th>
+      </tr>
+      <tr>
+        <th scope="row" class="ps-3">{% trans "Stereo/Mono" %}</th>
+        <td>{% badge output_settings.get_stereo_mono_display bg_color=output_settings.get_stereo_mono_color %}</td>
+      </tr>
+      <tr>
+        <th scope="row" class="ps-3">{% trans "DSP Preset" %}</th>
+        <td>{{ output_settings.dsp_preset|placeholder }}</td>
+      </tr>
+      <tr>
+        <th scope="row" class="ps-3">{% trans "Output Group" %}</th>
+        <td>{% badge output_settings.get_output_group_display show_empty=False %}</td>
+      </tr>
+      <tr>
+        <th scope="row" class="ps-3">{% trans "Bridge Mode" %}</th>
+        <td>{% checkmark output_settings.bridge_mode %}</td>
+      </tr>
+
+      <tr>
+        <th scope="row" colspan="2" class="fw-bold">{% trans "Output Source" %}</th>
+      </tr>
+      <tr>
+        <th scope="row" class="ps-3">{% trans "Output Source 1" %}</th>
+        <td>{{ output_settings.get_output_source_1_display|placeholder }}</td>
+      </tr>
+      <tr>
+        <th scope="row" class="ps-3">{% trans "Output Source 2" %}</th>
+        <td>{{ output_settings.get_output_source_2_display|placeholder }}</td>
+      </tr>
+      <tr>
+        <th scope="row" class="ps-3">{% trans "Mode Source 2" %}</th>
+        <td>{% badge output_settings.get_mode_source_2_display bg_color=output_settings.get_mode_source_2_color %}</td>
+      </tr>
+
+      <tr>
+        <th scope="row" colspan="2" class="fw-bold">{% trans "Output Volume" %}</th>
+      </tr>
+      <tr>
+        <th scope="row" class="ps-3">{% trans "Output Volume" %}</th>
+        <td>{{ output_settings.output_volume }} dB</td>
+      </tr>
+      <tr>
+        <th scope="row" class="ps-3">{% trans "Turn-On Volume" %}</th>
+        <td>{{ output_settings.turn_on_volume }} dB</td>
+      </tr>
+      <tr>
+        <th scope="row" class="ps-3">{% trans "Maximum Volume" %}</th>
+        <td>{{ output_settings.maximum_volume }} dB</td>
+      </tr>
+      <tr>
+        <th scope="row" class="ps-3">{% trans "Gain Offset" %}</th>
+        <td>{{ output_settings.gain_offset }} dB</td>
+      </tr>
+      <tr>
+        <th scope="row" class="ps-3">{% trans "Mute" %}</th>
+        <td>{% checkmark output_settings.mute %}</td>
+      </tr>
+
+      <tr>
+        <th scope="row">{% trans "Details" %}</th>
+        <td>{{ output_settings|linkify }}</td>
+      </tr>
+    {% else %}
+      <tr>
+        <th scope="row">{% trans "Type" %}</th>
+        <td class="text-muted">{% trans "No amp parameters" %}</td>
+      </tr>
+    {% endif %}
+  </table>
+</div>

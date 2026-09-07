@@ -1,0 +1,33 @@
+{% extends 'generic/_base.html' %}
+{% load helpers %}
+{% load i18n %}
+
+{% block title %}{{ object }}{% endblock %}
+
+{% block content %}
+  <div class="row">
+    <div class="col col-md-6">
+      <div class="card">
+        <h2 class="card-header">{% trans "Input Settings" %}</h2>
+        <table class="table table-hover attr-table">
+          <tr>
+            <th scope="row">{% trans "Interface" %}</th>
+            <td>{{ object.interface|linkify }}</td>
+          </tr>
+          <tr>
+            <th scope="row">{% trans "Device" %}</th>
+            <td>{{ object.interface.device|linkify|placeholder }}</td>
+          </tr>
+          <tr>
+            <th scope="row">{% trans "Level Trim" %}</th>
+            <td>{{ object.level_trim_db }} dB</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="col col-md-6">
+      {% include 'inc/panels/custom_fields.html' %}
+      {% include 'inc/panels/tags.html' %}
+    </div>
+  </div>
+{% endblock %}

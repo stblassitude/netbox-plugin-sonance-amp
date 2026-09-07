@@ -1,0 +1,9 @@
+.git
+.github
+.gitignore
+.dockerignore
+*.md
+dist
+build
+*.egg-info
+__pycache__

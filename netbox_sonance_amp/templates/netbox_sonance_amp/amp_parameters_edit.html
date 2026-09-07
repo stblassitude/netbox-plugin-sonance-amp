@@ -1,0 +1,88 @@
+{% extends 'generic/_base.html' %}
+{% load form_helpers %}
+{% load i18n %}
+
+{% block title %}{% trans "Amp Parameters" %}: {{ interface }}{% endblock %}
+
+{% block content %}
+  <form method="post">
+    {% csrf_token %}
+    <div class="row">
+      <div class="col col-md-6">
+        <div class="card">
+          <h2 class="card-header">{% trans "Amp Parameters" %}</h2>
+          <div class="card-body">
+            {% render_field form.parameter_type %}
+          </div>
+        </div>
+
+        <div class="card amp-parameters-input" hidden>
+          <h2 class="card-header">{% trans "Input Settings" %}</h2>
+          <div class="card-body">
+            {% render_field form.level_trim_db %}
+          </div>
+        </div>
+
+        <div class="card amp-parameters-output" hidden>
+          <h2 class="card-header">{% trans "Output Setup" %}</h2>
+          <div class="card-body">
+            {% render_field form.stereo_mono %}
+            {% render_field form.dsp_preset %}
+            {% render_field form.output_group %}
+            {% render_field form.bridge_mode %}
+          </div>
+        </div>
+      </div>
+
+      <div class="col col-md-6">
+        <div class="card amp-parameters-output" hidden>
+          <h2 class="card-header">{% trans "Output Source" %}</h2>
+          <div class="card-body">
+            {% render_field form.output_source_1 %}
+            {% render_field form.output_source_2 %}
+            {% render_field form.mode_source_2 %}
+          </div>
+        </div>
+
+        <div class="card amp-parameters-output" hidden>
+          <h2 class="card-header">{% trans "Output Volume" %}</h2>
+          <div class="card-body">
+            {% render_field form.output_volume %}
+            {% render_field form.turn_on_volume %}
+            {% render_field form.maximum_volume %}
+            {% render_field form.gain_offset %}
+            {% render_field form.mute %}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="float-end">
+      <a href="{{ return_url }}" class="btn btn-outline-secondary">{% trans "Cancel" %}</a>
+      <button type="submit" class="btn btn-primary">{% trans "Save" %}</button>
+    </div>
+  </form>
+{% endblock %}
+
+{% block modals %}
+  {{ block.super }}
+  <script>
+    (function () {
+      var select = document.getElementById('id_parameter_type');
+      var inputPanels = document.querySelectorAll('.amp-parameters-input');
+      var outputPanels = document.querySelectorAll('.amp-parameters-output');
+
+      function updateVisibility() {
+        var showInput = select.value === 'input';
+        var showOutput = select.value === 'output';
+        inputPanels.forEach(function (panel) { panel.hidden = !showInput; });
+        outputPanels.forEach(function (panel) { panel.hidden = !showOutput; });
+      }
+
+      if (select) {
+        select.addEventListener('change', updateVisibility);
+        updateVisibility();
+      }
+    })();
+  </script>
+{% endblock %}

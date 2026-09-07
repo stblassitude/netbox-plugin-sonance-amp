@@ -1,0 +1,36 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "netbox-sonance-amp"
+version = "0.1.0"
+authors = [
+    { name = "Stefan Bethke", email = "stb@lassitu.de" },
+]
+description = "NetBox plugin modeling Sonance SonAmp input and output parameters on interfaces"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.10"
+
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Framework :: Django",
+    "Intended Audience :: System Administrators",
+    "Natural Language :: English",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+]
+
+[project.urls]
+Homepage = "https://github.com/stblassitude/netbox-plugin-sonance-amp"
+Issues = "https://github.com/stblassitude/netbox-plugin-sonance-amp/issues"
+
+[tool.setuptools.packages.find]
+include = ["netbox_sonance_amp*"]
+
+[tool.setuptools.package-data]
+netbox_sonance_amp = ["templates/**/*.html"]

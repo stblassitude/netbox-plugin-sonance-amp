@@ -1,0 +1,92 @@
+{% extends 'generic/_base.html' %}
+{% load helpers %}
+{% load i18n %}
+
+{% block title %}{{ object }}{% endblock %}
+
+{% block content %}
+  <div class="row">
+    <div class="col col-md-6">
+      <div class="card">
+        <h2 class="card-header">{% trans "Interface" %}</h2>
+        <table class="table table-hover attr-table">
+          <tr>
+            <th scope="row">{% trans "Interface" %}</th>
+            <td>{{ object.interface|linkify }}</td>
+          </tr>
+          <tr>
+            <th scope="row">{% trans "Device" %}</th>
+            <td>{{ object.interface.device|linkify|placeholder }}</td>
+          </tr>
+        </table>
+      </div>
+      <div class="card">
+        <h2 class="card-header">{% trans "Output Setup" %}</h2>
+        <table class="table table-hover attr-table">
+          <tr>
+            <th scope="row">{% trans "Stereo/Mono" %}</th>
+            <td>{% badge object.get_stereo_mono_display bg_color=object.get_stereo_mono_color %}</td>
+          </tr>
+          <tr>
+            <th scope="row">{% trans "DSP Preset" %}</th>
+            <td>{{ object.dsp_preset|placeholder }}</td>
+          </tr>
+          <tr>
+            <th scope="row">{% trans "Output Group" %}</th>
+            <td>{% badge object.get_output_group_display show_empty=False %}</td>
+          </tr>
+          <tr>
+            <th scope="row">{% trans "Bridge Mode" %}</th>
+            <td>{% checkmark object.bridge_mode %}</td>
+          </tr>
+        </table>
+      </div>
+      <div class="card">
+        <h2 class="card-header">{% trans "Output Source" %}</h2>
+        <table class="table table-hover attr-table">
+          <tr>
+            <th scope="row">{% trans "Output Source 1" %}</th>
+            <td>{{ object.get_output_source_1_display|placeholder }}</td>
+          </tr>
+          <tr>
+            <th scope="row">{% trans "Output Source 2" %}</th>
+            <td>{{ object.get_output_source_2_display|placeholder }}</td>
+          </tr>
+          <tr>
+            <th scope="row">{% trans "Mode Source 2" %}</th>
+            <td>{% badge object.get_mode_source_2_display bg_color=object.get_mode_source_2_color %}</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="col col-md-6">
+      <div class="card">
+        <h2 class="card-header">{% trans "Output Volume" %}</h2>
+        <table class="table table-hover attr-table">
+          <tr>
+            <th scope="row">{% trans "Output Volume" %}</th>
+            <td>{{ object.output_volume }} dB</td>
+          </tr>
+          <tr>
+            <th scope="row">{% trans "Turn-On Volume" %}</th>
+            <td>{{ object.turn_on_volume }} dB</td>
+          </tr>
+          <tr>
+            <th scope="row">{% trans "Maximum Volume" %}</th>
+            <td>{{ object.maximum_volume }} dB</td>
+          </tr>
+          <tr>
+            <th scope="row">{% trans "Gain Offset" %}</th>
+            <td>{{ object.gain_offset }} dB</td>
+          </tr>
+          <tr>
+            <th scope="row">{% trans "Mute" %}</th>
+            <td>{% checkmark object.mute %}</td>
+          </tr>
+        </table>
+      </div>
+      {% include 'inc/panels/custom_fields.html' %}
+      {% include 'inc/panels/tags.html' %}
+    </div>
+  </div>
+{% endblock %}
