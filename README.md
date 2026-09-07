@@ -71,7 +71,7 @@ A self-contained Docker Compose setup is included for trying the plugin out agai
 docker compose up -d --build
 ```
 
-Once the `netbox` service reports healthy, log in at <http://localhost:8000/> with `admin` / `admin`. A demo device, `sonamp-1`, is created automatically with an `Input 1` and an `Output 1` interface (both type "Other") so you can open either interface's detail page and add amp parameters right away.
+Once the `netbox` service reports healthy, log in at <http://localhost:8000/> with `admin` / `admin`. A demo device, `sonamp-1`, is created automatically with 8 input interfaces (`In 1L` through `In 4R`, each already configured with input amp parameters) and 8 output interfaces (`Speaker 1L` through `Speaker 4R`, all type "Other") so you can open any interface's detail page and add amp parameters right away -- including picking an Output Source from the labeled inputs.
 
 To stop and remove the stack (including its database volume):
 

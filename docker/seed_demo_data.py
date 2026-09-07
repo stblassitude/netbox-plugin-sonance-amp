@@ -34,7 +34,7 @@ for channel in channels:
 
 output_interfaces = []
 for channel in channels:
-    label = f'Out {channel}'
+    label = f'Speaker {channel}'
     interface, _ = Interface.objects.get_or_create(
         device=device, name=label, defaults={'type': InterfaceTypeChoices.TYPE_OTHER, 'label': label},
     )

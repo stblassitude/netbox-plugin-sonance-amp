@@ -20,7 +20,7 @@ class InterfaceAmpParametersEditViewTestCase(TestCase):
 
         self.local_input = Interface.objects.create(device=device_a, name='In 1L', type='other')
         self.remote_input = Interface.objects.create(device=device_b, name='In 1L', type='other')
-        self.output = Interface.objects.create(device=device_a, name='Out 1L', type='other')
+        self.output = Interface.objects.create(device=device_a, name='Speaker 1L', type='other')
 
         AmpInputSettings.objects.create(interface=self.local_input)
         AmpInputSettings.objects.create(interface=self.remote_input)
