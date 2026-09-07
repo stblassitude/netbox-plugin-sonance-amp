@@ -15,6 +15,21 @@ jobs:
         with:
           python-version: "3.12"
 
+      - name: Set package version from tag
+        run: |
+          python - <<'PY'
+          import os
+          import re
+
+          version = os.environ["GITHUB_REF_NAME"].removeprefix("v")
+          path = "pyproject.toml"
+          text = open(path).read()
+          text, n = re.subn(r'(?m)^version = ".*"$', f'version = "{version}"', text, count=1)
+          assert n == 1, "version field not found in pyproject.toml"
+          open(path, "w").write(text)
+          print(f"Set pyproject.toml version to {version}")
+          PY
+
       - name: Install build tooling
         run: python -m pip install --upgrade pip build twine
 
