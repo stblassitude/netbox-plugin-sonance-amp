@@ -34,6 +34,93 @@ The Interface Label field is applied to the Output Name parameter.
 
 The plugin ties the custom model editing into the Interface detail form. The editing form allows choosing "No amp parameters", "Input amp parameters", or "Output amp parameters" for each interface. Changing the type will add or remove the respective model entry, and show the correct form for the type.
 
+## REST API
+
+Both models are fully exposed through NetBox's REST API, under the plugin's base path:
+
+| Endpoint | Methods | Description |
+|----------|---------|--------------|
+| `/api/plugins/sonance-amp/input-settings/` | GET, POST | List / create AmpInputSettings |
+| `/api/plugins/sonance-amp/input-settings/<id>/` | GET, PUT, PATCH, DELETE | Retrieve / update / delete a single AmpInputSettings |
+| `/api/plugins/sonance-amp/output-settings/` | GET, POST | List / create AmpOutputSettings |
+| `/api/plugins/sonance-amp/output-settings/<id>/` | GET, PUT, PATCH, DELETE | Retrieve / update / delete a single AmpOutputSettings |
+
+These follow standard NetBox REST API conventions: authenticate with `Authorization: Token <your-api-token>` (or an authenticated browser session), page results with `?limit=`/`?offset=`, request compact nested objects with `?brief=1`, and free-text search with `?q=` (matching interface/device name, and output group for outputs). Both endpoints also support filtering by `interface_id`; output settings additionally filter on `stereo_mono`, `dsp_preset`, `output_group`, `bridge_mode`, `mode_source_2`, and `mute`.
+
+Related objects -- `interface`, and for output settings `output_source_1`/`output_source_2` -- are represented as nested objects on read, and accept either a primary key or a set of attributes uniquely identifying the interface on write. Choice fields (`stereo_mono`, `output_group`, `mode_source_2`) are represented as `{"value": ..., "label": ...}` objects on read, but take just the raw value on write.
+
+Example: fetch the output settings for a specific interface
+
+```
+GET /api/plugins/sonance-amp/output-settings/?interface_id=9
+Authorization: Token <your-api-token>
+```
+
+Nested interface objects are trimmed below to the relevant fields; the actual response also includes each interface's `device`, `cable`, `description`, etc.
+
+```json
+{
+  "count": 1,
+  "results": [
+    {
+      "id": 1,
+      "url": "https://netbox.example.com/api/plugins/sonance-amp/output-settings/1/",
+      "display": "Output amp parameters for Speaker 1L (Library E L)",
+      "interface": {
+        "id": 9,
+        "url": "https://netbox.example.com/api/dcim/interfaces/9/",
+        "display": "Speaker 1L (Library E L)",
+        "name": "Speaker 1L"
+      },
+      "stereo_mono": {"value": "stereo", "label": "Stereo"},
+      "dsp_preset": "Main",
+      "output_group": {"value": "A", "label": "A"},
+      "bridge_mode": false,
+      "output_source_1": {
+        "id": 1,
+        "url": "https://netbox.example.com/api/dcim/interfaces/1/",
+        "display": "In 1L (1 Library)",
+        "name": "In 1L"
+      },
+      "output_source_2": {
+        "id": 2,
+        "url": "https://netbox.example.com/api/dcim/interfaces/2/",
+        "display": "In 1R (1 Library)",
+        "name": "In 1R"
+      },
+      "mode_source_2": {"value": "mix", "label": "Mix"},
+      "output_volume": 0.0,
+      "turn_on_volume": -40.0,
+      "maximum_volume": 6.0,
+      "gain_offset": 0.0,
+      "mute": false,
+      "tags": [],
+      "custom_fields": {},
+      "created": "2026-09-07T10:00:00Z",
+      "last_updated": "2026-09-07T10:00:00Z"
+    }
+  ]
+}
+```
+
+Example: create output settings for an interface, routed from two input interfaces by their primary keys
+
+```
+POST /api/plugins/sonance-amp/output-settings/
+Authorization: Token <your-api-token>
+Content-Type: application/json
+
+{
+  "interface": 9,
+  "stereo_mono": "stereo",
+  "output_source_1": 1,
+  "output_source_2": 2,
+  "mode_source_2": "mix"
+}
+```
+
+The full interactive API schema is also available from any running instance at `/api/docs/`, and every endpoint is browsable directly (with a form for authenticated write access) by visiting its URL in a browser.
+
 ## Compatibility
 
 | NetBox Version | Plugin Version |
