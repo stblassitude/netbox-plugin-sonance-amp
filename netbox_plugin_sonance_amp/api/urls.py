@@ -2,7 +2,7 @@ from netbox.api.routers import NetBoxRouter
 
 from . import views
 
-app_name = 'netbox_sonance_amp'
+app_name = 'netbox_plugin_sonance_amp'
 
 router = NetBoxRouter()
 router.register('input-settings', views.AmpInputSettingsViewSet)

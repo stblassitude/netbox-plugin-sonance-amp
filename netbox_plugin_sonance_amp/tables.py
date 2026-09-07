@@ -9,7 +9,7 @@ from .models import AmpInputSettings, AmpOutputSettings
 class AmpInputSettingsTable(NetBoxTable):
     interface = tables.Column(linkify=True)
     device = tables.Column(accessor='interface__device', linkify=True)
-    tags = TagColumn(url_name='plugins:netbox_sonance_amp:ampinputsettings_list')
+    tags = TagColumn(url_name='plugins:netbox_plugin_sonance_amp:ampinputsettings_list')
 
     class Meta(NetBoxTable.Meta):
         model = AmpInputSettings
@@ -27,7 +27,7 @@ class AmpOutputSettingsTable(NetBoxTable):
     mode_source_2 = ChoiceFieldColumn()
     bridge_mode = BooleanColumn()
     mute = BooleanColumn()
-    tags = TagColumn(url_name='plugins:netbox_sonance_amp:ampoutputsettings_list')
+    tags = TagColumn(url_name='plugins:netbox_plugin_sonance_amp:ampoutputsettings_list')
 
     class Meta(NetBoxTable.Meta):
         model = AmpOutputSettings

@@ -2,8 +2,8 @@ from django.test import TestCase
 
 from dcim.models import Device, DeviceRole, DeviceType, Interface, Manufacturer, Site
 
-from netbox_sonance_amp.choices import OutputGroupChoices, StereoModeChoices
-from netbox_sonance_amp.models import AmpInputSettings, AmpOutputSettings
+from netbox_plugin_sonance_amp.choices import OutputGroupChoices, StereoModeChoices
+from netbox_plugin_sonance_amp.models import AmpInputSettings, AmpOutputSettings
 
 
 class AmpSettingsTestCase(TestCase):

@@ -5,7 +5,7 @@ from netbox.views.generic import ObjectChangeLogView
 from . import views
 from .models import AmpInputSettings, AmpOutputSettings
 
-app_name = 'netbox_sonance_amp'
+app_name = 'netbox_plugin_sonance_amp'
 
 urlpatterns = (
     # AmpInputSettings

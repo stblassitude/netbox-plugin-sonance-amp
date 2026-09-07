@@ -4,9 +4,9 @@ ARG NETBOX_IMAGE=netboxcommunity/netbox:v4.7
 
 FROM ${NETBOX_IMAGE}
 
-COPY . /source/netbox-sonance-amp
-RUN /usr/local/bin/uv pip install --no-cache /source/netbox-sonance-amp \
-    && rm -rf /source/netbox-sonance-amp
+COPY . /source/netbox-plugin-sonance-amp
+RUN /usr/local/bin/uv pip install --no-cache /source/netbox-plugin-sonance-amp \
+    && rm -rf /source/netbox-plugin-sonance-amp
 
 COPY docker/plugins.py /etc/netbox/config/plugins.py
 

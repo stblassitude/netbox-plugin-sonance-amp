@@ -33,7 +33,7 @@ class AmpInputSettings(NetBoxModel):
         return f'Input amp parameters for {self.interface}'
 
     def get_absolute_url(self):
-        return reverse('plugins:netbox_sonance_amp:ampinputsettings', args=[self.pk])
+        return reverse('plugins:netbox_plugin_sonance_amp:ampinputsettings', args=[self.pk])
 
 
 class AmpOutputSettings(NetBoxModel):
@@ -132,4 +132,4 @@ class AmpOutputSettings(NetBoxModel):
         return f'Output amp parameters for {self.interface}'
 
     def get_absolute_url(self):
-        return reverse('plugins:netbox_sonance_amp:ampoutputsettings', args=[self.pk])
+        return reverse('plugins:netbox_plugin_sonance_amp:ampoutputsettings', args=[self.pk])

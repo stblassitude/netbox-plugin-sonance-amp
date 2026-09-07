@@ -102,7 +102,7 @@ class InterfaceAmpParametersEditView(PermissionRequiredMixin, View):
     def get(self, request, interface_id):
         interface = get_object_or_404(Interface, pk=interface_id)
         form = AmpParameterForm(initial=self.get_initial(interface))
-        return render(request, 'netbox_sonance_amp/amp_parameters_edit.html', {
+        return render(request, 'netbox_plugin_sonance_amp/amp_parameters_edit.html', {
             'object': interface,
             'interface': interface,
             'form': form,
@@ -149,7 +149,7 @@ class InterfaceAmpParametersEditView(PermissionRequiredMixin, View):
 
             return redirect(interface.get_absolute_url())
 
-        return render(request, 'netbox_sonance_amp/amp_parameters_edit.html', {
+        return render(request, 'netbox_plugin_sonance_amp/amp_parameters_edit.html', {
             'object': interface,
             'interface': interface,
             'form': form,

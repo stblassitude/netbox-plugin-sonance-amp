@@ -51,7 +51,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: pypi
-      url: https://pypi.org/p/netbox-sonance-amp
+      url: https://pypi.org/p/netbox-plugin-sonance-amp
     permissions:
       id-token: write
     steps:
@@ -63,7 +63,7 @@ jobs:
       # Uses PyPI Trusted Publishing (OIDC) -- no API token required. Before the first
       # release, register this repo as a *pending* publisher (the project doesn't exist on
       # PyPI yet) at https://pypi.org/manage/account/publishing/ with:
-      #   PyPI project name: netbox-sonance-amp
+      #   PyPI project name: netbox-plugin-sonance-amp
       #   Owner: stblassitude   Repository: netbox-plugin-sonance-amp
       #   Workflow name: publish.yml   Environment name: pypi
       - uses: pypa/gh-action-pypi-publish@release/v1

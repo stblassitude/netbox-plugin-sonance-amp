@@ -1,5 +1,5 @@
-PLUGINS = ["netbox_sonance_amp"]
+PLUGINS = ["netbox_plugin_sonance_amp"]
 
 PLUGINS_CONFIG = {
-    "netbox_sonance_amp": {},
+    "netbox_plugin_sonance_amp": {},
 }

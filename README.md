@@ -45,14 +45,14 @@ The plugin ties the custom model editing into the Interface detail form. The edi
 Install the plugin into your NetBox virtual environment:
 
 ```bash
-pip install netbox-sonance-amp
+pip install netbox-plugin-sonance-amp
 ```
 
 Enable it in your NetBox `configuration.py` (or `plugins.py`, if using [netbox-docker](https://github.com/netbox-community/netbox-docker)):
 
 ```python
 PLUGINS = [
-    "netbox_sonance_amp",
+    "netbox_plugin_sonance_amp",
 ]
 ```
 

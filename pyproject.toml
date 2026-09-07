@@ -3,7 +3,7 @@ requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "netbox-sonance-amp"
+name = "netbox-plugin-sonance-amp"
 version = "0.1.0"
 authors = [
     { name = "Stefan Bethke", email = "stb@lassitu.de" },
@@ -30,7 +30,7 @@ Homepage = "https://github.com/stblassitude/netbox-plugin-sonance-amp"
 Issues = "https://github.com/stblassitude/netbox-plugin-sonance-amp/issues"
 
 [tool.setuptools.packages.find]
-include = ["netbox_sonance_amp*"]
+include = ["netbox_plugin_sonance_amp*"]
 
 [tool.setuptools.package-data]
-netbox_sonance_amp = ["templates/**/*.html"]
+netbox_plugin_sonance_amp = ["templates/**/*.html"]

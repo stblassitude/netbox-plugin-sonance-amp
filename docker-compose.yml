@@ -15,7 +15,7 @@ services:
     build:
       context: .
       dockerfile: docker/Dockerfile
-    image: netbox-sonance-amp:test
+    image: netbox-plugin-sonance-amp:test
     depends_on:
       postgres:
         condition: service_healthy

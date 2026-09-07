@@ -2,7 +2,7 @@ from netbox.plugins import PluginConfig
 
 
 class SonanceAmpConfig(PluginConfig):
-    name = 'netbox_sonance_amp'
+    name = 'netbox_plugin_sonance_amp'
     verbose_name = 'Sonance Amp'
     description = 'Model Sonance SonAmp input and output parameters on NetBox interfaces'
     version = '0.1.0'
