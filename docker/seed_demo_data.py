@@ -1,7 +1,7 @@
 from dcim.choices import DeviceStatusChoices, InterfaceTypeChoices
 from dcim.models import Device, DeviceRole, DeviceType, Interface, Manufacturer, Site
 
-from netbox_plugin_sonance_amp.models import AmpInputSettings
+from netbox_plugin_sonance_amp.models import AmpInputSettings, AmpOutputSettings
 
 site, _ = Site.objects.get_or_create(slug='demo-site', defaults={'name': 'Demo Site'})
 manufacturer, _ = Manufacturer.objects.get_or_create(slug='sonance', defaults={'name': 'Sonance'})
@@ -36,6 +36,7 @@ output_labels = {
 }
 
 input_interfaces = []
+input_interfaces_by_channel = {}
 for channel, label in input_labels.items():
     name = f'In {channel}'
     interface, _ = Interface.objects.get_or_create(
@@ -43,12 +44,26 @@ for channel, label in input_labels.items():
     )
     AmpInputSettings.objects.get_or_create(interface=interface)
     input_interfaces.append(interface)
+    input_interfaces_by_channel[channel] = interface
+
+# Each output pair is fed by an input pair; outputs 1-3 all draw on the Library input,
+# output 4 draws on the Great room input.
+output_sources = {
+    '1L': '1L', '1R': '1R',
+    '2L': '1L', '2R': '1R',
+    '3L': '1L', '3R': '1R',
+    '4L': '2L', '4R': '2R',
+}
 
 output_interfaces = []
 for channel, label in output_labels.items():
     name = f'Speaker {channel}'
     interface, _ = Interface.objects.get_or_create(
         device=device, name=name, defaults={'type': InterfaceTypeChoices.TYPE_OTHER, 'label': label},
+    )
+    AmpOutputSettings.objects.get_or_create(
+        interface=interface,
+        defaults={'output_source_1': input_interfaces_by_channel[output_sources[channel]]},
     )
     output_interfaces.append(interface)
 
