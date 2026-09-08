@@ -8,7 +8,14 @@ from netbox.views import generic
 
 from .choices import AmpParameterTypeChoices
 from .filtersets import AmpInputSettingsFilterSet, AmpOutputSettingsFilterSet
-from .forms import AmpInputSettingsForm, AmpOutputSettingsForm, AmpParameterForm, amp_input_interfaces
+from .forms import (
+    AmpInputSettingsBulkEditForm,
+    AmpInputSettingsForm,
+    AmpOutputSettingsBulkEditForm,
+    AmpOutputSettingsForm,
+    AmpParameterForm,
+    amp_input_interfaces,
+)
 from .models import AmpInputSettings, AmpOutputSettings
 from .tables import AmpInputSettingsTable, AmpOutputSettingsTable
 
@@ -36,6 +43,19 @@ class AmpInputSettingsDeleteView(generic.ObjectDeleteView):
     queryset = AmpInputSettings.objects.all()
 
 
+class AmpInputSettingsBulkEditView(generic.BulkEditView):
+    queryset = AmpInputSettings.objects.all()
+    filterset = AmpInputSettingsFilterSet
+    table = AmpInputSettingsTable
+    form = AmpInputSettingsBulkEditForm
+
+
+class AmpInputSettingsBulkDeleteView(generic.BulkDeleteView):
+    queryset = AmpInputSettings.objects.all()
+    filterset = AmpInputSettingsFilterSet
+    table = AmpInputSettingsTable
+
+
 #
 # AmpOutputSettings
 #
@@ -57,6 +77,19 @@ class AmpOutputSettingsEditView(generic.ObjectEditView):
 
 class AmpOutputSettingsDeleteView(generic.ObjectDeleteView):
     queryset = AmpOutputSettings.objects.all()
+
+
+class AmpOutputSettingsBulkEditView(generic.BulkEditView):
+    queryset = AmpOutputSettings.objects.all()
+    filterset = AmpOutputSettingsFilterSet
+    table = AmpOutputSettingsTable
+    form = AmpOutputSettingsBulkEditForm
+
+
+class AmpOutputSettingsBulkDeleteView(generic.BulkDeleteView):
+    queryset = AmpOutputSettings.objects.all()
+    filterset = AmpOutputSettingsFilterSet
+    table = AmpOutputSettingsTable
 
 
 #

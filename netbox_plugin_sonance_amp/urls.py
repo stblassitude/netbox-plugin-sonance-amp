@@ -11,6 +11,14 @@ urlpatterns = (
     # AmpInputSettings
     path('input-settings/', views.AmpInputSettingsListView.as_view(), name='ampinputsettings_list'),
     path('input-settings/add/', views.AmpInputSettingsEditView.as_view(), name='ampinputsettings_add'),
+    path(
+        'input-settings/edit/', views.AmpInputSettingsBulkEditView.as_view(),
+        name='ampinputsettings_bulk_edit',
+    ),
+    path(
+        'input-settings/delete/', views.AmpInputSettingsBulkDeleteView.as_view(),
+        name='ampinputsettings_bulk_delete',
+    ),
     path('input-settings/<int:pk>/', views.AmpInputSettingsView.as_view(), name='ampinputsettings'),
     path('input-settings/<int:pk>/edit/', views.AmpInputSettingsEditView.as_view(), name='ampinputsettings_edit'),
     path(
@@ -25,6 +33,14 @@ urlpatterns = (
     # AmpOutputSettings
     path('output-settings/', views.AmpOutputSettingsListView.as_view(), name='ampoutputsettings_list'),
     path('output-settings/add/', views.AmpOutputSettingsEditView.as_view(), name='ampoutputsettings_add'),
+    path(
+        'output-settings/edit/', views.AmpOutputSettingsBulkEditView.as_view(),
+        name='ampoutputsettings_bulk_edit',
+    ),
+    path(
+        'output-settings/delete/', views.AmpOutputSettingsBulkDeleteView.as_view(),
+        name='ampoutputsettings_bulk_delete',
+    ),
     path('output-settings/<int:pk>/', views.AmpOutputSettingsView.as_view(), name='ampoutputsettings'),
     path(
         'output-settings/<int:pk>/edit/', views.AmpOutputSettingsEditView.as_view(),
